@@ -1,4 +1,4 @@
-package Recrutie.Recrutie;
+package com.Recrutie.Recrutie;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
