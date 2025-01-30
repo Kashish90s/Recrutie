@@ -16,10 +16,17 @@ jobs:
 
     - name: Get Commit Details
       id: get_commit
-      run: echo "COMMIT_MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+      run: |
+        echo "COMMIT_MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+        echo "COMMIT_AUTHOR=$(git log -1 --pretty=%an)" >> $GITHUB_ENV
 
     - name: Send Slack Notification
       uses: act10ns/slack@v2
       with:
+        webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
         channel: '#mar-2024-weekday-batch'
-        text: "New commit on main branch: *${{ env.COMMIT_MESSAGE }}*"
+        status: success  # or failure if you're reporting a job status
+        message: |
+          New commit on the main branch:
+          - *Message*: ${{ env.COMMIT_MESSAGE }}
+          - *Author*: ${{ env.COMMIT_AUTHOR }}
