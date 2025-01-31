@@ -1,6 +1,6 @@
 package com.Recrutie.Recrutie.model;
 
-import com.Recrutie.Recrutie.Enum.CompanyStatus;
+import com.Recrutie.Recrutie.Enum.UserStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -9,16 +9,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import java.time.LocalDateTime;
 
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "companies")
-public class Company {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,27 +25,26 @@ public class Company {
 
     @Column(nullable = false)
     private String name;
-    private String website;
-    private String industry;
 
-    @Column(unique = true,nullable = false)
-    private String domain;
-
-    @Column(nullable = false)
     @Email
+    @Column(nullable = false)
     private String email;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private CompanyStatus status = CompanyStatus.ACTIVE;
+    private String password;
 
-    private String theme;
+    @ManyToOne
+    @JoinColumn(name = "role_id",nullable = false)
+    private Role role;
 
-    @Lob
+    private String phone;
+
+    private String OPT;
+
+    private boolean isVerified = false;
+
     @Column(nullable = false)
-    private String description;
-
-    private String logoPath;
+    private UserStatus status = UserStatus.ACTIVE;
 
     @CreatedDate
     private LocalDateTime createdAt;
