@@ -3,10 +3,7 @@ package com.Recrutie.Recrutie.model;
 import com.Recrutie.Recrutie.Enum.UserStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -17,6 +14,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "users")
+@Builder
 public class User {
 
     @Id
@@ -27,14 +26,14 @@ public class User {
     private String name;
 
     @Email
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
     @ManyToOne
-    @JoinColumn(name = "role_id",nullable = false)
+    @JoinColumn(name = "role_id")
     private Role role;
 
     private String phone;
