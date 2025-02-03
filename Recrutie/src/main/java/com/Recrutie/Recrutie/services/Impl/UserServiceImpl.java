@@ -1,10 +1,13 @@
 package com.Recrutie.Recrutie.services.Impl;
 
+import com.Recrutie.Recrutie.dto.RoleDto;
 import com.Recrutie.Recrutie.dto.UserDto;
 import com.Recrutie.Recrutie.exception.EmailAlreadyExistException;
 import com.Recrutie.Recrutie.exception.UserNotFoundException;
 import com.Recrutie.Recrutie.mapper.UserMapper;
+import com.Recrutie.Recrutie.model.Role;
 import com.Recrutie.Recrutie.model.User;
+import com.Recrutie.Recrutie.repository.RoleRepository;
 import com.Recrutie.Recrutie.repository.UserRepository;
 import com.Recrutie.Recrutie.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +23,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final RoleRepository roleRepository;
 
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -40,7 +44,7 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> getAllUsers() {
         List<User> users = userRepository.findAll();
         if (users.isEmpty()) {
-            System.out.println("No users found.");
+            throw new RuntimeException("No users");
         }
         return users.stream()
                 .map(userMapper::toUserDto)
@@ -78,6 +82,24 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long id){
         User user = this.userRepository.findById(id).orElseThrow(()->new UserNotFoundException("User not found"));
         this.userRepository.delete(user);
+    }
+
+    @Override
+    public UserDto updateStatus(Long id,User user) {
+        User updatedUser = this.userRepository.findById(id).orElseThrow(()->new UserNotFoundException("User not found"));
+        updatedUser.setStatus(user.getStatus());
+        userRepository.save(updatedUser);
+        return userMapper.toUserDto(updatedUser);
+    }
+
+    @Override
+    public UserDto updateUserRole(Long userId, Long roleId) {
+        User user = this.userRepository.findById(userId).orElseThrow(()->new UserNotFoundException("User not found"));
+        Role role = this.roleRepository.findById(roleId).orElseThrow(()->new RuntimeException("Role not found"));
+
+        user.setRole(role);
+        userRepository.save(user);
+        return userMapper.toUserDto(user);
     }
 
 }
