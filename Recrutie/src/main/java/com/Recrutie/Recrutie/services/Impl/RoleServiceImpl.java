@@ -62,4 +62,5 @@ public class RoleServiceImpl implements RoleService {
         this.roleRepository.save(role);
         return roleMapper.toRoleDto(role);
     }
+    //this comment is for checking commit notification on slack for branch dev
 }
