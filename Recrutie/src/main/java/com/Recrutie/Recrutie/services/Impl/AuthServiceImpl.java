@@ -21,17 +21,12 @@ public class AuthServiceImpl implements AuthService {
 
 
     @Override
-    public String login(User user) {
-        return "Success";
-    }
-
-    @Override
     public String verify(User user) {
         Authentication authentication =
-                authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getName(),user.getPassword()));
+                authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
 
         if(authentication.isAuthenticated())
-            return jwtService.generateToken(user.getName());
+            return jwtService.generateToken(user.getEmail());
 
         return "Fail";
     }

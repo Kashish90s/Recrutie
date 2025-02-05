@@ -1,6 +1,5 @@
 package com.Recrutie.Recrutie.model;
 
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,7 +11,6 @@ import java.util.Collections;
 
 @NoArgsConstructor
 public class UserPrincipal implements UserDetails {
-
 
     private User user;
 
@@ -32,7 +30,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getName();
+        return user.getEmail();
     }
 
     @Override
