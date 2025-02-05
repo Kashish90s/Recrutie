@@ -37,7 +37,6 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDto createRole(Role role) {
-        System.out.println("service");
         return roleMapper.toRoleDto(this.roleRepository.save(role));
     }
 
@@ -62,5 +61,4 @@ public class RoleServiceImpl implements RoleService {
         this.roleRepository.save(role);
         return roleMapper.toRoleDto(role);
     }
-    //this comment is for checking commit notification on slack for branch dev
 }

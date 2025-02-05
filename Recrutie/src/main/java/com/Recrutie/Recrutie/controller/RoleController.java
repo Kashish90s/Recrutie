@@ -28,7 +28,6 @@ public class RoleController {
 
     @PostMapping("/create")
     public RoleDto createRole(@Valid @RequestBody Role role){
-        System.out.println("hit controller");
         return this.roleService.createRole(role);
     }
 
